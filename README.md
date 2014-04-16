@@ -56,10 +56,10 @@ Now browse to the app at `http://localhost:8000/`
 
 ### SPA-Seed Repositories
 
- * [KriaSoft/SPA-Seed.Frontend](https://github.com/KriaSoft/SPA-Seed.Frontend) - Base SPA Front-end template
-   * [KriaSoft/SPA-Seed.Frontend.AngularJS](https://github.com/KriaSoft/SPA-Seed.Frontend.AngularJS) - AngularJS SPA template
-   * [KriaSoft/SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Frontend.React) - Facebook React SPA template
- * [KriaSoft/SPA-Seed.Server](https://github.com/KriaSoft/SPA-Seed.Server) - SPA backend/server template (coming soon)
+ * [SPA-Seed.Frontend](https://github.com/KriaSoft/SPA-Seed.Frontend) - Base SPA Front-end template
+   * [SPA-Seed.Frontend.AngularJS](https://github.com/KriaSoft/SPA-Seed.Frontend.AngularJS) - AngularJS SPA template
+   * [SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Frontend.React) - Facebook React SPA template
+ * [SPA-Seed.Server](https://github.com/KriaSoft/SPA-Seed.Server) - SPA backend/server template (coming soon)
 
 
 ### Authors
