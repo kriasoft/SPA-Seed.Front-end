@@ -54,6 +54,13 @@ To compile and run the application do:
 
 Now browse to the app at `http://localhost:8000/`
 
+### SPA-Seed Repositories
+
+ * [KriaSoft/SPA-Seed.Frontend](https://github.com/KriaSoft/SPA-Seed.Frontend) - Base SPA Template
+   * [KriaSoft/SPA-Seed.Frontend.AngularJS](https://github.com/KriaSoft/SPA-Seed.Frontend) - AngularJS SPA Template
+   * [KriaSoft/SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Frontend) - Facebook React SPA Template
+
+
 ### Authors
  * [Konstantin Tarkus](https://angel.co/koistya) ([@koistya](https://twitter.com/koistya)), KriaSoft LLC
 
