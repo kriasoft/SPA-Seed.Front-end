@@ -28,17 +28,37 @@ gulp.task('styles', ['clean'], function () {
     return gulp.src('./src/app.less').pipe(less()).pipe(gulp.dest('./build'));
 });
 
+// HTML files
+gulp.task('html', ['clean'], function () {
+    return gulp.src('./src/**/*.html').pipe(gulp.dest('./build'));
+});
+
 // JavaScript code
 gulp.task('scripts', ['clean'], function () {
     return gutil.log('TODO: Add a task for bundling JavaScript code');
 });
 
 // Build the app
-gulp.task('build', ['public', 'vendor', 'styles', 'scripts']);
+gulp.task('build', ['public', 'vendor', 'styles', 'scripts', 'html']);
 
-// Start HTTP Server
-gulp.task('serve', ['build'], function () {
-    return gutil.log('TODO: Add a task for starting an HTTP server');
+// Launch a basic HTTP Server
+gulp.task('serve', ['build'], function (next) {
+    var fileServer = require('ecstatic')({root: './build', cache: 'no-cache', showDir: true}),
+        port = 8000;
+    require('http').createServer()
+        .on('request', function (req, res) {
+            // For non-existent files output the contents of /index.html page in order to make HTML5 routing work
+            if (req.url.length > 3 &&
+                ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(req.url.split('.').pop()) == -1 &&
+                ['fonts', 'vendor', 'views', 'images'].indexOf(req.url.split('/')[1]) == -1) {
+                req.url = '/index.html';
+            }
+            fileServer(req, res);
+        })
+        .listen(port, function () {
+            gutil.log('Server is listening on ' + gutil.colors.magenta('http://localhost:' + port + '/'));
+            next();
+        });
 });
 
 // The default task
