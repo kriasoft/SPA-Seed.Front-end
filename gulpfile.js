@@ -7,6 +7,7 @@ var gulp  = require('gulp');
 var clean = require('gulp-clean');
 var less  = require('gulp-less');
 var gutil = require('gulp-util');
+var es    = require('event-stream');
 
 // Clean up
 gulp.task('clean', function () {
@@ -20,7 +21,10 @@ gulp.task('public', ['clean'], function () {
 
 // Copy vendor specific files
 gulp.task('vendor', ['clean'], function () {
-    return gulp.src('./bower_components/jquery/dist/**').pipe(gulp.dest('./build/vendor'));
+    return es.concat(
+        gulp.src('./bower_components/jquery/dist/**').pipe(gulp.dest('./build/vendor')),
+        gulp.src('./bower_components/modernizr/modernizr.js').pipe(gulp.dest('./build/vendor'))
+    );
 });
 
 // LESS stylesheets
@@ -35,7 +39,9 @@ gulp.task('html', ['clean'], function () {
 
 // JavaScript code
 gulp.task('scripts', ['clean'], function () {
-    return gutil.log('TODO: Add a task for bundling JavaScript code');
+    var source = require('vinyl-source-stream');
+    return require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
+        .bundle().pipe(source('app.js')).pipe(gulp.dest('./build'));
 });
 
 // Build the app
@@ -50,7 +56,7 @@ gulp.task('serve', ['build'], function (next) {
             // For non-existent files output the contents of /index.html page in order to make HTML5 routing work
             if (req.url.length > 3 &&
                 ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(req.url.split('.').pop()) == -1 &&
-                ['fonts', 'vendor', 'views', 'images'].indexOf(req.url.split('/')[1]) == -1) {
+                ['fonts', 'images', 'vendor', 'views'].indexOf(req.url.split('/')[1]) == -1) {
                 req.url = '/index.html';
             }
             fileServer(req, res);

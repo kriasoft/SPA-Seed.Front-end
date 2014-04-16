@@ -1,1 +1,1 @@
-
+console.log('Hello from SPA Seed Project!');
