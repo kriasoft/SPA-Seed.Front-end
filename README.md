@@ -1,5 +1,5 @@
 SPA Front-end Starter Kit
-========================
+=========================
 
 This project is an application skeleton for a typical single-page application (SPA). You can use it to quickly
 bootstrap your web application projects and dev environment for these projects.
@@ -40,7 +40,7 @@ Below is a list of 3rd party runtime and development time components used in the
 To get started you can simply clone the repo and install the dependencies:
 
 ```
-> git clonse https://github.com/KriaSoft/SPA-Seed.Frontend MyApp
+> git clonse https://github.com/KriaSoft/SPA-Seed.Front-end MyApp
 > cd MyApp
 > npm install
 > bower install
@@ -56,10 +56,10 @@ Now browse to the app at `http://localhost:8000/`
 
 ### SPA-Seed Repositories
 
- * [SPA-Seed.Frontend](https://github.com/KriaSoft/SPA-Seed.Frontend) - Base SPA Front-end template
-   * [SPA-Seed.Frontend.AngularJS](https://github.com/KriaSoft/SPA-Seed.Frontend.AngularJS) - AngularJS SPA template
-   * [SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Frontend.React) - Facebook React SPA template
- * [SPA-Seed.Server](https://github.com/KriaSoft/SPA-Seed.Server) - SPA backend/server template (coming soon)
+ * [SPA-Seed.Frontend](https://github.com/KriaSoft/SPA-Seed.Front-end) - Base SPA Front-end template
+   * [SPA-Seed.Frontend.AngularJS](https://github.com/KriaSoft/SPA-Seed.Front-end.AngularJS) - AngularJS SPA template
+   * [SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Front-end.React) - Facebook React SPA template
+ * [SPA-Seed.Server](https://github.com/KriaSoft/SPA-Seed.Server-side) - SPA backend/server-side template (coming soon)
 
 
 ### Authors
