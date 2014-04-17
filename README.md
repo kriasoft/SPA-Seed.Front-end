@@ -40,7 +40,7 @@ Below is a list of 3rd party runtime and development time components used in the
 To get started you can simply clone the repo and install the dependencies:
 
 ```
-> git clonse https://github.com/KriaSoft/SPA-Seed.Front-end MyApp
+> git clone https://github.com/KriaSoft/SPA-Seed.Front-end.git MyApp
 > cd MyApp
 > npm install
 > bower install
