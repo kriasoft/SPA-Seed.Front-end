@@ -1,7 +1,6 @@
-SPA Front-end Starter Kit
-=========================
+![SPA Front-end Starter Kit](http://files.tarkus.me/spa-seed/Single-page-Application-Starter-Kit.png)
 
-This project is an application skeleton for a typical single-page application (SPA). You can use it to quickly
+**SPA Front-end Starter Kit** is an application skeleton for a typical single-page application (SPA). You can use it to quickly
 bootstrap your web application projects and dev environment for these projects.
 
 ### Components
