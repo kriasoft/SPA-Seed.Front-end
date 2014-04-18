@@ -1,6 +1,6 @@
 {
     "globalstrict": true,
     "globals": {
-        "$": false
+        "require": false
     }
 }

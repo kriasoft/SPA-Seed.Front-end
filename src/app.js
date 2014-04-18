@@ -1,3 +1,7 @@
+'use strict';
+
 var $ = require('jquery');
 
-console.log('Hello from SPA Front-end Starter Kit!');
+$(function () {
+    $('<h3>SPA Front-end Starter Kit!</h3>').insertBefore('body > p');
+});

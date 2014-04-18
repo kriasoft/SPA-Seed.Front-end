@@ -5,9 +5,11 @@
 
 var gulp = require('gulp');
 var changed = require('gulp-changed');
+var jshint = require('gulp-jshint');
 var less = require('gulp-less');
 var gutil = require('gulp-util');
 var rimraf = require('rimraf');
+var es = require('event-stream');
 
 // A cache for Gulp tasks. It is used as a workaround for Gulp's dependency resolution
 // limitations. It won't be needed anymore starting with Gulp 4.
@@ -50,10 +52,15 @@ gulp.task('views-clean', ['clean'], task.views);
 // JavaScript code
 gulp.task('scripts', task.scripts = function () {
     var source = require('vinyl-source-stream');
-    return require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(gulp.dest('./build'));
+    return es.concat(
+        gulp.src(['./src/**/*.js', './gulpfile.js'])
+            .pipe(jshint())
+            .pipe(jshint.reporter('jshint-stylish')),
+        require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
+            .bundle()
+            .pipe(source('app.js'))
+            .pipe(gulp.dest('./build'))
+    );
 });
 gulp.task('scripts-clean', ['clean'], task.scripts);
 
