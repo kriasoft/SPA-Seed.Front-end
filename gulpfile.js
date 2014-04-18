@@ -48,7 +48,7 @@ gulp.task('scripts', ['clean'], function () {
 gulp.task('build', ['public', 'vendor', 'styles', 'scripts', 'html']);
 
 // Launch a basic HTTP Server
-gulp.task('serve', ['build'], function (next) {
+gulp.task('server', ['build'], function (next) {
     var fileServer = require('ecstatic')({root: './build', cache: 'no-cache', showDir: true}),
         port = 8000;
     require('http').createServer()
@@ -68,4 +68,4 @@ gulp.task('serve', ['build'], function (next) {
 });
 
 // The default task
-gulp.task('default', ['serve']);
+gulp.task('default', ['server']);
