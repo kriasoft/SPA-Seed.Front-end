@@ -7,7 +7,6 @@ var gulp = require('gulp');
 var changed = require('gulp-changed');
 var less = require('gulp-less');
 var gutil = require('gulp-util');
-var es = require('event-stream');
 var rimraf = require('rimraf');
 
 // A cache for Gulp tasks. It is used as a workaround for Gulp's dependency resolution
@@ -21,7 +20,8 @@ gulp.task('clean', function (cb) {
 
 // Copy public/static files
 gulp.task('public', task.public = function () {
-    return gulp.src('./public/**').pipe(gulp.dest('./build'));
+    return gulp.src('./public/**')
+        .pipe(gulp.dest('./build'));
 });
 gulp.task('public-clean', ['clean'], task.public);
 
@@ -33,13 +33,17 @@ gulp.task('vendor-clean', ['clean'], task.vendor);
 
 // CSS stylesheets
 gulp.task('styles', task.styles = function () {
-    return gulp.src('./src/app.less').pipe(less()).pipe(gulp.dest('./build'));
+    return gulp.src('./src/app.less')
+        .pipe(less())
+        .pipe(gulp.dest('./build'));
 });
 gulp.task('styles-clean', ['clean'], task.styles);
 
 // HTML views
 gulp.task('views', task.views = function () {
-    return gulp.src('./src/**/*.html').pipe(changed('./build')).pipe(gulp.dest('./build'));
+    return gulp.src('./src/**/*.html')
+        .pipe(changed('./build'))
+        .pipe(gulp.dest('./build'));
 });
 gulp.task('views-clean', ['clean'], task.views);
 
@@ -47,7 +51,9 @@ gulp.task('views-clean', ['clean'], task.views);
 gulp.task('scripts', task.scripts = function () {
     var source = require('vinyl-source-stream');
     return require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
-        .bundle().pipe(source('app.js')).pipe(gulp.dest('./build'));
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('./build'));
 });
 gulp.task('scripts-clean', ['clean'], task.scripts);
 
@@ -71,7 +77,8 @@ gulp.task('run', ['build'], function (next) {
             fileServer(req, res);
         })
         .listen(port, function () {
-            gutil.log('Server is listening on ' + gutil.colors.magenta('http://localhost:' + port + '/'));
+            gutil.log('Server is listening on ' +
+                gutil.colors.magenta('http://localhost:' + port + '/'));
             next();
         });
 });
@@ -81,7 +88,8 @@ gulp.task('watch', ['run'], function () {
     var path = require('path'),
         livereload = require('gulp-livereload')();
     gulp.watch('./build/**', function (file) {
-        gutil.log('File changed: ' + gutil.colors.magenta('./build/' + path.relative('./build', file.path)));
+        var relPath = './build/' + path.relative('./build', file.path);
+        gutil.log('File changed: ' + gutil.colors.magenta(relPath));
         livereload.changed(file.path);
     });
     gulp.watch('./public/**', ['public']);
