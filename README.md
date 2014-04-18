@@ -40,9 +40,8 @@ To get started you can simply clone the repo and install the dependencies:
 ```
 > git clone https://github.com/KriaSoft/SPA-Seed.Front-end.git MyApp
 > cd MyApp                      # Navigate to the newly created project's directory
-> npm install -g bower gulp     # Install Bower and Gulp globally
+> npm install -g gulp           # Install Bower and Gulp globally
 > npm install                   # Install node.js components listed in ./package.json
-> bower install                 # Install 3rd party libraries listed in ./bower.json
 ```
 
 To compile and run the application do:
