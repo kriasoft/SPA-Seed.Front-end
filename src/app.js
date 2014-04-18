@@ -1,3 +1,3 @@
 var $ = require('jquery');
 
-console.log('Hello from SPA Seed Project! 13');
+console.log('Hello from SPA Seed Project!');
