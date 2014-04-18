@@ -3,57 +3,69 @@
 
 'use strict';
 
-var gulp  = require('gulp');
-var clean = require('gulp-clean');
-var less  = require('gulp-less');
+var gulp = require('gulp');
+var changed = require('gulp-changed');
+var less = require('gulp-less');
 var gutil = require('gulp-util');
-var es    = require('event-stream');
+var es = require('event-stream');
+var rimraf = require('rimraf');
+
+// A cache for Gulp tasks. It is used as a workaround for Gulp's dependency resolution
+// limitations. It won't be needed anymore starting with Gulp 4.
+var task = {};
 
 // Clean up
-gulp.task('clean', function () {
-    return gulp.src(['./build/**', '!build'], {read: false}).pipe(clean());
+gulp.task('clean', function (cb) {
+    rimraf('./build', cb);
 });
 
 // Copy public/static files
-gulp.task('public', ['clean'], function () {
+gulp.task('public', task.public = function () {
     return gulp.src('./public/**').pipe(gulp.dest('./build'));
 });
+gulp.task('public-clean', ['clean'], task.public);
 
 // Copy vendor specific files
-gulp.task('vendor', ['clean'], function () {
+gulp.task('vendor', task.vendor = function () {
     // TODO: Copy vendor specific files
 });
+gulp.task('vendor-clean', ['clean'], task.vendor);
 
-// LESS stylesheets
-gulp.task('styles', ['clean'], function () {
+// CSS stylesheets
+gulp.task('styles', task.styles = function () {
     return gulp.src('./src/app.less').pipe(less()).pipe(gulp.dest('./build'));
 });
+gulp.task('styles-clean', ['clean'], task.styles);
 
-// HTML files
-gulp.task('html', ['clean'], function () {
-    return gulp.src('./src/**/*.html').pipe(gulp.dest('./build'));
+// HTML views
+gulp.task('views', task.views = function () {
+    return gulp.src('./src/**/*.html').pipe(changed('./build')).pipe(gulp.dest('./build'));
 });
+gulp.task('views-clean', ['clean'], task.views);
 
 // JavaScript code
-gulp.task('scripts', ['clean'], function () {
+gulp.task('scripts', task.scripts = function () {
     var source = require('vinyl-source-stream');
     return require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
         .bundle().pipe(source('app.js')).pipe(gulp.dest('./build'));
 });
+gulp.task('scripts-clean', ['clean'], task.scripts);
 
-// Build the app
-gulp.task('build', ['public', 'vendor', 'styles', 'scripts', 'html']);
+// Build the app from source code
+gulp.task('build', ['public-clean', 'vendor-clean', 'views-clean', 'styles-clean', 'scripts-clean']);
 
-// Launch a basic HTTP Server
-gulp.task('serve', ['build'], function (next) {
-    var fileServer = require('ecstatic')({root: './build', cache: 'no-cache', showDir: true}),
+// Launch a lightweight HTTP Server
+gulp.task('run', ['build'], function (next) {
+    var url = require('url'),
+        fileServer = require('ecstatic')({root: './build', cache: 'no-cache', showDir: true}),
         port = 8000;
     require('http').createServer()
         .on('request', function (req, res) {
             // For non-existent files output the contents of /index.html page in order to make HTML5 routing work
-            if (req.url.length > 3 &&
-                ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(req.url.split('.').pop()) == -1 &&
-                ['fonts', 'images', 'vendor', 'views'].indexOf(req.url.split('/')[1]) == -1) {
+            var urlPath = url.parse(req.url);
+            if (urlPath.length > 3 &&
+                ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(urlPath.split('.').pop()) == -1 &&
+                ['fonts', 'images', 'vendor', 'views'].indexOf(urlPath.split('/')[1]) == -1) {
                 req.url = '/index.html';
             }
             fileServer(req, res);
@@ -64,5 +76,19 @@ gulp.task('serve', ['build'], function (next) {
         });
 });
 
+// Watch for changes in source files
+gulp.task('watch', ['run'], function () {
+    var path = require('path'),
+        livereload = require('gulp-livereload')();
+    gulp.watch('./build/**', function (file) {
+        gutil.log('File changed: ' + gutil.colors.magenta('./build/' + path.relative('./build', file.path)));
+        livereload.changed(file.path);
+    });
+    gulp.watch('./public/**', ['public']);
+    gulp.watch('./src/**/*.html', ['views']);
+    gulp.watch('./src/**/*.less', ['styles']);
+    gulp.watch('./src/**/*.js', ['scripts']);
+});
+
 // The default task
-gulp.task('default', ['serve']);
+gulp.task('default', ['watch']);
