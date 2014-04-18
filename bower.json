@@ -1,8 +1,0 @@
-{
-  "name": "spa-seed",
-  "private": true,
-  "dependencies": {
-    "jquery": "~2.1.0",
-    "modernizr": "~2.7.2"
-  }
-}

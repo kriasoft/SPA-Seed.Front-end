@@ -21,10 +21,7 @@ gulp.task('public', ['clean'], function () {
 
 // Copy vendor specific files
 gulp.task('vendor', ['clean'], function () {
-    return es.concat(
-        gulp.src('./bower_components/jquery/dist/**').pipe(gulp.dest('./build/vendor')),
-        gulp.src('./bower_components/modernizr/modernizr.js').pipe(gulp.dest('./build/vendor'))
-    );
+    // TODO: Copy vendor specific files
 });
 
 // LESS stylesheets

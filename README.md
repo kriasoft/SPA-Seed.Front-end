@@ -10,9 +10,8 @@ Below is a list of 3rd party runtime and development time components used in the
 
 | Runtime components | Development tools    |
 |--------------------|----------------------|
-| HTML5 Boilerplate  | Bower                |
+| HTML5 Boilerplate  | Browserify           |
 | jQuery             | Gulp                 |
-|                    | Browserify           |
 |                    | Karma                |
 |                    | Protractor           |
 
@@ -20,7 +19,6 @@ Below is a list of 3rd party runtime and development time components used in the
 
 ```
 .
-├── bower_components            # 3rd party libraries used in the app
 ├── build                       # A compiled version of the app
 ├── docs                        # Documentation files
 ├── node_modules                # Node.js dev tools and utilities
