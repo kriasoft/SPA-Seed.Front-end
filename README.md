@@ -1,18 +1,10 @@
 ![SPA Front-end Starter Kit](http://files.tarkus.me/spa-seed/Single-page-Application-Starter-Kit.png)
 
-**SPA Front-end Starter Kit** is an application skeleton for a typical single-page application (SPA). You can use it to quickly
-bootstrap your web application projects and dev environment for these projects.
-
-### Components
-
-Below is a list of 3rd party runtime and development time components used in the project.
-
-| Runtime components | Development tools    |
-|--------------------|----------------------|
-| HTML5 Boilerplate  | Browserify           |
-| jQuery             | Gulp                 |
-|                    | Karma                |
-|                    | Protractor           |
+**SPA Front-end Starter Kit** is an application skeleton for a typical single-page application (SPA).
+You can use it to quickly bootstrap your web application projects and dev environment for these projects.
+It includes the following set of pre-configured dev tools at your disposal:
+[Browserify](http://browserify.org/), [Gulp](http://gulpjs.com/), [Karma](http://karma-runner.github.io/),
+[Protractor](https://github.com/angular/protractor)...
 
 ### Directory Layout
 
@@ -39,7 +31,7 @@ To get started you can simply clone the repo and install the dependencies:
 ```
 > git clone https://github.com/KriaSoft/SPA-Seed.Front-end.git MyApp
 > cd MyApp                      # Navigate to the newly created project's directory
-> npm install -g gulp           # Install Gulp globally
+> npm install -g gulp           # Install Gulp task runner globally
 > npm install                   # Install node.js components listed in ./package.json
 ```
 
@@ -60,6 +52,7 @@ Now browse to the app at `http://localhost:8000/`
 
 
 ### Authors
+
  * [Konstantin Tarkus](https://angel.co/koistya) ([@koistya](https://twitter.com/koistya)), KriaSoft LLC
 
 ### Copyright
