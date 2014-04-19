@@ -4,9 +4,11 @@
 'use strict';
 
 var gulp = require('gulp');
+var browserify = require('gulp-browserify');
 var changed = require('gulp-changed');
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
+var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var rimraf = require('rimraf');
 var es = require('event-stream');
@@ -36,7 +38,9 @@ gulp.task('vendor-clean', ['clean'], task.vendor);
 // CSS stylesheets
 gulp.task('styles', task.styles = function () {
     return gulp.src('./src/app.less')
+        .pipe(plumber())
         .pipe(less())
+        .on('error', gutil.log)
         .pipe(gulp.dest('./build'));
 });
 gulp.task('styles-clean', ['clean'], task.styles);
@@ -51,14 +55,13 @@ gulp.task('views-clean', ['clean'], task.views);
 
 // JavaScript code
 gulp.task('scripts', task.scripts = function () {
-    var source = require('vinyl-source-stream');
     return es.concat(
         gulp.src(['./src/**/*.js', './gulpfile.js'])
             .pipe(jshint())
             .pipe(jshint.reporter('jshint-stylish')),
-        require('browserify')({entries: ['./src/app.js'], debug: !gutil.env.production})
-            .bundle()
-            .pipe(source('app.js'))
+        gulp.src('./src/app.js')
+            .pipe(browserify({debug: !gutil.env.production}))
+            .on('error', gutil.log)
             .pipe(gulp.dest('./build'))
     );
 });
@@ -75,7 +78,7 @@ gulp.task('run', ['build'], function (next) {
     require('http').createServer()
         .on('request', function (req, res) {
             // For non-existent files output the contents of /index.html page in order to make HTML5 routing work
-            var urlPath = url.parse(req.url);
+            var urlPath = url.parse(req.url).pathname;
             if (urlPath.length > 3 &&
                 ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(urlPath.split('.').pop()) == -1 &&
                 ['fonts', 'images', 'vendor', 'views'].indexOf(urlPath.split('/')[1]) == -1) {
@@ -95,7 +98,7 @@ gulp.task('watch', ['run'], function () {
     var path = require('path'),
         livereload = require('gulp-livereload')();
     gulp.watch('./build/**', function (file) {
-        var relPath = './build/' + path.relative('./build', file.path);
+        var relPath = 'build\\' + path.relative('./build', file.path);
         gutil.log('File changed: ' + gutil.colors.magenta(relPath));
         livereload.changed(file.path);
     });
