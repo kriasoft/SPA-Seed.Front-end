@@ -96,16 +96,20 @@ gulp.task('run', ['build'], function (next) {
 // Watch for changes in source files
 gulp.task('watch', ['run'], function () {
     var path = require('path'),
-        livereload = require('gulp-livereload')();
-    gulp.watch('./build/**', function (file) {
-        var relPath = 'build\\' + path.relative('./build', file.path);
-        gutil.log('File changed: ' + gutil.colors.magenta(relPath));
-        livereload.changed(file.path);
-    });
+        lr = require('gulp-livereload')();
+
+    // Watch for changes in source files
     gulp.watch('./public/**', ['public']);
     gulp.watch('./src/**/*.html', ['views']);
     gulp.watch('./src/**/*.less', ['styles']);
     gulp.watch('./src/**/*.js', ['scripts']);
+
+    // Watch for changes in 'compiled' files
+    gulp.watch('./build/**', function (file) {
+        var relPath = 'build\\' + path.relative('./build', file.path);
+        gutil.log('File changed: ' + gutil.colors.magenta(relPath));
+        lr.changed(file.path);
+    });
 });
 
 // The default task
