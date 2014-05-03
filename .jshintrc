@@ -1,6 +1,7 @@
 {
     "globalstrict": true,
     "globals": {
-        "require": false
+        "require": false,
+        "__dirname": false
     }
 }

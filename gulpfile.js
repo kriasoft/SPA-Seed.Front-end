@@ -39,7 +39,7 @@ gulp.task('vendor-clean', ['clean'], task.vendor);
 gulp.task('styles', task.styles = function () {
     return gulp.src('./src/app.less')
         .pipe(plumber())
-        .pipe(less())
+        .pipe(less({sourceMap: !gutil.env.production, sourceMapBasepath: __dirname}))
         .on('error', gutil.log)
         .pipe(gulp.dest('./build'));
 });
@@ -73,22 +73,25 @@ gulp.task('build', ['public-clean', 'vendor-clean', 'views-clean', 'styles-clean
 // Launch a lightweight HTTP Server
 gulp.task('run', ['build'], function (next) {
     var url = require('url'),
-        fileServer = require('ecstatic')({root: './build', cache: 'no-cache', showDir: true}),
+        fileServer = require('ecstatic')({root: './', cache: 'no-cache', showDir: true}),
         port = 8000;
     require('http').createServer()
         .on('request', function (req, res) {
             // For non-existent files output the contents of /index.html page in order to make HTML5 routing work
             var urlPath = url.parse(req.url).pathname;
-            if (urlPath.length > 3 &&
-                ['css', 'html', 'ico', 'js', 'png', 'txt', 'xml'].indexOf(urlPath.split('.').pop()) == -1 &&
-                ['fonts', 'images', 'vendor', 'views'].indexOf(urlPath.split('/')[1]) == -1) {
-                req.url = '/index.html';
+            if (urlPath === '/') {
+                req.url = '/build/index.html';
+            } else if (
+                ['css', 'html', 'ico', 'less', 'js', 'png', 'txt', 'xml'].indexOf(urlPath.split('.').pop()) == -1 &&
+                ['bower_components', 'fonts', 'images', 'src', 'vendor', 'views'].indexOf(urlPath.split('/')[1]) == -1) {
+                req.url = '/build/index.html';
+            } else if (['src', 'bower_components'].indexOf(urlPath.split('/')[1]) == -1) {
+                req.url = '/build' + req.url;
             }
             fileServer(req, res);
         })
         .listen(port, function () {
-            gutil.log('Server is listening on ' +
-                gutil.colors.magenta('http://localhost:' + port + '/'));
+            gutil.log('Server is listening on ' + gutil.colors.magenta('http://localhost:' + port + '/'));
             next();
         });
 });

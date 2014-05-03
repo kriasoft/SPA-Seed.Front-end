@@ -50,6 +50,14 @@ Now browse to the app at `http://localhost:8000/`
    * [SPA-Seed.Frontend.React](https://github.com/KriaSoft/SPA-Seed.Front-end.React) - Facebook React SPA template
  * [SPA-Seed.Server](https://github.com/KriaSoft/SPA-Seed.Server-side) - SPA backend/server-side template (coming soon)
 
+### Reference Articles
+
+ * [Build Wars: Gulp vs Grunt](http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/)
+   by [Mark Dalgleish](https://twitter.com/markdalgleish)
+ * [Getting Started with Gulp](http://markgoodyear.com/2014/01/getting-started-with-gulp/)
+   by [Mark Goodyear](https://twitter.com/markgdyr)
+ * [Gulp + Browserify: The Everything Post](http://viget.com/extend/gulp-browserify-starter-faq)
+   by [Dan Tello](https://twitter.com/dantello5)
 
 ### Authors
 
